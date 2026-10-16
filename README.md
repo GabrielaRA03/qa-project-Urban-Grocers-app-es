@@ -2,11 +2,11 @@
 
 ## Objective
 
-To validate the Urban Grocers API and automate test cases for user creation and kit management, ensuring that API requests and responses strictly adhere to business requirements and specifications.
+To validate the Urban Grocers API by automating the test suite for kit creation via the POST method (/api/v1/kits/), ensuring that parameter validation for name adheres strictly to system requirements.
 
 ## Defining the problem
 
-The Urban Grocers API required thorough testing to verify that user and kit creation endpoints handled input data correctly. Particular attention was needed for the kit name field under various edge cases—including character limits, special characters, spaces, missing parameters, and invalid data types. Manual execution of these repetitive validation scenarios was time-consuming, highlighting the need for automated tests with Python, PyTest, and Requests to improve testing efficiency and reliability.
+Creating a kit in Urban Grocers requires strict input validation for the name parameter to maintain data integrity. The endpoint had to be tested against 9 specific checklist scenarios—covering both valid names (expecting a 201 Created status code) and edge/invalid cases such as special characters, character length limits, spaces, missing parameters, or incorrect data types (expecting a 400 Bad Request status code). Automating these scenarios with Python, PyTest, and Requests was necessary to ensure fast, repeatable validation.
 
 ## What I Did
 
@@ -26,9 +26,10 @@ Postman · Python · Pytest · PyCharm · Git · GitHub · REST API Testing · J
 
 ## Results
 
-- 100% of the tests passed. Successfully requested a taxi with the comfort fare in Urban Routes.
-- Validated API behavior for user and kit creation, tested positive and negative input scenarios, and identified unexpected behavior in input validation.
-- Developed automated tests with Python and Pytest to check API responses against expected results
+- Validated API behavior for kit creation (POST /api/v1/kits/), executing 9 automated test scenarios:
+  - *Positive Tests (1, 2, 5, 6, 7):* Confirmed successful kit creation, receiving an HTTP *201 Created* status code.
+  - *Negative Tests (3, 4, 8, 9):* Verified error handling for invalid inputs, returning an HTTP *400 Bad Request* status code as expected.
+- Developed automated tests using Python and PyTest to validate API responses against business requirements and identified edge-case input behavior.
 
 ## Learnings
 
@@ -42,6 +43,7 @@ Postman · Python · Pytest · PyCharm · Git · GitHub · REST API Testing · J
 
 <img width="1096" height="1436" alt="imagen (4)" src="https://github.com/user-attachments/assets/fb5adb01-0fea-4990-a1fa-90c044eeff0e" />
 
+<img width="1920" height="1011" alt="imagen (5)" src="https://github.com/user-attachments/assets/f7e0b802-baaf-4292-a374-ff28500098bf" />
 
 --------------------------------------------------------------------------------
 
