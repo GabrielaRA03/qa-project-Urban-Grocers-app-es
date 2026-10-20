@@ -35,6 +35,17 @@ Postman · Python · Pytest · PyCharm · Git · GitHub · REST API Testing · J
 - Deepened practical experience applying Equivalence Partitioning and Boundary Value Analysis to REST API payloads.
 - Learned to organize test code and manage project changes using Git and GitHub.
 
+##  Recommendations & Quality Improvements
+
+Based on the automated API test results and identified backend vulnerabilities, the following recommendations are critical to ensuring backend robustness and data integrity:
+
+-**Enforce Strict Payload Validation:** Implement rigid schema validation rules on the backend to reject invalid data types (e.g., numeric values in string fields) and empty strings (""), returning a 400 Bad Request status code immediately.
+- **Implement Character Limit Controls:** Enforce string boundary validation on the name parameter to strictly enforce the allowed length limits (1 to 511 characters) and prevent accepting inputs exceeding boundaries (such as 512 characters).
+- **Fix Unhandled Server Exceptions:** Improve backend exception handling when mandatory body parameters are omitted, ensuring the API gracefully handles missing parameters with a 400 Bad Request instead of crashing with a 500 Internal Server Error.
+- **Align API Behavior with Product Requirements:** Ensure backend responses strictly match expected business rules to prevent saving invalid data into the database and maintain overall system consistency.
+
+<br>
+
 ## Evidence
 
 <img width="1096" height="1436" alt="imagen (4)" src="https://github.com/user-attachments/assets/fb5adb01-0fea-4990-a1fa-90c044eeff0e" />
