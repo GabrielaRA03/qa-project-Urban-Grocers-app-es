@@ -2,47 +2,68 @@
 
 ## Objective
 
-To validate the Urban Grocers API kit creation endpoint (POST /api/v1/kits/) by developing an automated Pytest suite in Python, ensuring strict parameter validation and API contract compliance.
+To test the kit creation endpoint (POST /api/v1/kits/) in Urban Grocers using automated Python and Pytest tests, making sure input rules and API responses work as expected.
 
 ## Defining the problem
 
-In the Urban Grocers platform, creating product kits relies on strict backend input validation to maintain data integrity. Allowing malformed payload structures, out-of-range character lengths, unhandled spaces, or incorrect data types into the database can disrupt inventory management and cause client-side application crashes.
-The endpoint (POST /api/v1/kits/) required thorough validation against 9 specific checklist scenarios—covering both positive cases (expecting an HTTP 201 Created response) and negative/edge cases (expecting an HTTP 400 Bad Request error). Automating these scenarios with Python, Pytest, and Requests was essential to ensure fast, repeatable validation and prevent regression issues.
+When users or clients create product kits in Urban Grocers, the backend must check that the data is valid before saving it. If bad data gets through—such as empty names, text that is too long, spaces, wrong data types, or missing fields—it can hurt data quality, create messy records in the inventory, and cause errors in the app.
+
+Testing POST /api/v1/kits/ across 9 checklist cases (valid cases expecting 201 Created, and invalid or edge cases expecting 400 Bad Request) with Python, Pytest and Requests, helps catch problems early, repeat checks quickly, and avoid regressions when the code changes.
 
 ## What I Did
-- Analyzed API documentation and specifications to identify expected endpoint
-- Applied Equivalence Partitioning and Boundary Value Analysis to design efficient positive and negative test cases covering character limits, spaces, special characters, numeric values, missing parameters, and incorrect data types.
-- Used Postman to manually construct and execute REST API requests, inspecting JSON request payloads, HTTP response bodies, headers, and status codes before automation.
-- Developed an automated API test suite using Python, Pytest, and the Requests library to automate checklist scenarios and validate actual HTTP status codes against business rules.
-- Uncovered critical backend edge-case failures (such as returning 201 Created or 500 Internal Server Error instead of 400 Bad Request) and documented application discrepancies with clear evidence.
-- Uploaded and managed project source code, test suites, and documentation using Git and GitHub workflows.
+
+- Reviewed the API rules and requirements to understand how kit creation should behave.
+
+- Used Equivalence Partitioning and Boundary Value Analysis to design clear positive and negative test cases for text length limits, spaces, special characters, numbers, missing fields, and wrong data types.
+
+- Tested requests manually in Postman first to inspect JSON bodies, headers, responses, and status codes before automating them.
+
+- Built an automated test suite in Python using Pytest and Requests to run the checklist and check actual status codes against expected rules.
+
+- Found edge-case bugs where the API returned 201 Created or 500 Internal Server Error instead of 400 Bad Request, and documented the findings with clear evidence.
+
+- Saved and organized the code, tests, and documentation using Git and GitHub.
+
 
 ## Technologies Used
 
 Postman · Python · Pytest · PyCharm · Git · GitHub · REST API Testing · JSON · Boundary Value Analysis · Equivalence Partitioning · Requests
 
-## Results
-- Executed 9 automated test scenarios covering both positive and negative validation paths (5 passed, 4 failed).
-  
-  Critical API Findings & Defects Identified: 
-  - Data Validation Flaws (201 Created instead of 400 Bad Request):* The system incorrectly allowed kit creation for an empty string name, a 512-character string (exceeding maximum limit), and numeric data types (123), indicating missing backend validation rules.
-  - Server Error Handling (500 Internal Server Error instead of 400 Bad Request): Omitting the mandatory name parameter caused an unhandled internal server error instead of returning a proper client-error status code.
-- Uncovered vulnerabilities that, if left unfixed, would allow invalid data persistence and potentially destabilize database integrity.
+## Results & Business Implications
+
+- **Verified test run**: Ran 9 automated test cases covering valid and invalid inputs (5 passed, 4 failed).
+
+- **Invalid data accepted** (201 Created instead of 400 Bad Request): The endpoint allowed creating kits with an empty name (""), a 512-character name (above the limit), and a number (123) as the name.
+  - Proven result: 3 failed validation checks
+  - possible implication: invalid or inconsistent kit names could enter the database and confuse users or product listings.
+
+- **Server error on missing required field** (500 Internal Server Error instead of 400 Bad Request): Skipping the required name field caused a server error instead of a clean client-error message.
+  - Proven result: 1 server-error case
+  - possible implication: missing data can trigger unhandled backend errors and make troubleshooting or monitoring harder for the team.
+ 
 
 ## Learnings
 
-- Enhanced skills in API test automation using Python, Pytest, and HTTP response assertion handling.
-- Deepened practical experience applying Equivalence Partitioning and Boundary Value Analysis to REST API payloads.
-- Learned to organize test code and manage project changes using Git and GitHub.
+- Practiced writing automated API tests with Python, Pytest, and response assertions.
 
-##  Recommendations & Quality Improvements
+- Applied Equivalence Partitioning and Boundary Value Analysis to real API inputs.
+
+- Practiced keeping test code and project updates organized in Git and GitHub..
+
+## Strategic Recommendations & Product Decision Support
 
 Based on the automated API test results and identified backend vulnerabilities, the following recommendations are critical to ensuring backend robustness and data integrity:
 
--**Enforce Strict Payload Validation:** Implement rigid schema validation rules on the backend to reject invalid data types (e.g., numeric values in string fields) and empty strings (""), returning a 400 Bad Request status code immediately.
-- **Implement Character Limit Controls:** Enforce string boundary validation on the name parameter to strictly enforce the allowed length limits (1 to 511 characters) and prevent accepting inputs exceeding boundaries (such as 512 characters).
-- **Fix Unhandled Server Exceptions:** Improve backend exception handling when mandatory body parameters are omitted, ensuring the API gracefully handles missing parameters with a 400 Bad Request instead of crashing with a 500 Internal Server Error.
-- **Align API Behavior with Product Requirements:** Ensure backend responses strictly match expected business rules to prevent saving invalid data into the database and maintain overall system consistency.
+- **Check input types and empty values**: Validate fields on the backend so empty strings and wrong data types (like numbers instead of text) are rejected with 400 Bad Request.
+  - Decision support: helps the product team decide whether to block bad inputs right away or adjust validation rules before release.
+
+- **Enforce character length limits**: Make sure the name field strictly follows its allowed length range (such as 1 to 511 characters) instead of accepting over-limit inputs like 512 characters.
+  - Decision support: helps prevent display or database issues before release
+
+- **Handle missing required fields cleanly**: Return a clear 400 Bad Request when required fields are missing instead of a 500 Internal Server Error.
+  - Decision support: helps product and engineering owners decide if the fix is urgent before launch so real user errors do not look like server crashes.
+
+- **Align API behavior with business rules**: Confirm with product and backend teammates how edge cases should work before shipping so expected behavior matches what users and systems need.
 
 <br>
 
